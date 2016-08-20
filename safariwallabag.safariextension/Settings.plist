@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>DefaultValue</key>
+		<string>http://v2.wallabag.org/</string>
+		<key>Key</key>
+		<string>wallabagUrl</string>
+		<key>Title</key>
+		<string>Wallabag URL (with trailing slash)</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+	<dict>
+		<key>Key</key>
+		<string>wallabagUsername</string>
+		<key>Secure</key>
+		<true/>
+		<key>Title</key>
+		<string>Username</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+	<dict>
+		<key>Key</key>
+		<string>wallabagPassword</string>
+		<key>Password</key>
+		<true/>
+		<key>Secure</key>
+		<true/>
+		<key>Title</key>
+		<string>Password</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+	<dict>
+		<key>Key</key>
+		<string>wallabagclientId</string>
+		<key>Secure</key>
+		<true/>
+		<key>Title</key>
+		<string>Client ID (like 1_1ztkgusds…)</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+	<dict>
+		<key>Key</key>
+		<string>wallabagclientSecret</string>
+		<key>Secure</key>
+		<true/>
+		<key>Title</key>
+		<string>Client secret (like 15zjfx81hb7k…)</string>
+		<key>Type</key>
+		<string>TextField</string>
+	</dict>
+</array>
+</plist>

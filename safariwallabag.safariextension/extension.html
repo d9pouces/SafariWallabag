@@ -1,0 +1,87 @@
+<html>
+<head>
+</head>
+
+<script>
+
+    function postRequest(url, data, callback, accessToken) {
+        var xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    if(callback) {
+                        callback(JSON.parse(xhr.responseText));
+                    }
+                }
+                else {
+                    try {
+                        //noinspection JSUnresolvedVariable
+                        alert(JSON.parse(xhr.responseText).error_description);
+                    }
+                    catch (e){
+                        alert(xhr.responseText);
+                    }
+                }
+            }
+        };
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        if (accessToken) {
+            xhr.setRequestHeader('Authorization', "" + accessToken);
+        }
+        else {
+        }
+        xhr.send(JSON.stringify(data));
+    }
+
+    function performCommand(event) {
+        if (event.command === "add-wallabag-item") {
+            var tags = "";
+            //noinspection JSUnresolvedVariable
+            var wallabagUrl = safari.extension.settings.wallabagUrl;
+            //noinspection JSUnresolvedVariable
+            var username = safari.extension.secureSettings.wallabagUsername;
+            //noinspection JSUnresolvedVariable
+            var password = safari.extension.secureSettings.wallabagPassword ;
+            //noinspection JSUnresolvedVariable
+            var clientId = safari.extension.secureSettings.wallabagclientId;
+            //noinspection JSUnresolvedVariable
+            var clientSecret = safari.extension.secureSettings.wallabagclientSecret;
+            //noinspection JSUnresolvedVariable
+            var currentTabUrl = safari.application.activeBrowserWindow.activeTab.url;
+            //noinspection JSUnresolvedVariable
+            var currentTabTitle = safari.application.activeBrowserWindow.activeTab.title;
+
+            var saveCallBack = function(saveData) {
+                //noinspection SillyAssignmentJS,JSUnusedAssignment
+                saveData = saveData;
+                alert(currentTabUrl + " has been saved in you Wallabag!");
+            };
+
+            var accessCallback = function(accessData) {
+                //noinspection JSUnresolvedVariable
+                var accessToken = accessData.token_type + ' ' + accessData.access_token;
+                accessToken = accessToken[0].toUpperCase() + accessToken.substring(1)
+                postRequest(wallabagUrl + 'api/entries.json', {url: currentTabUrl, title: currentTabTitle, tags: tags},
+                        saveCallBack, accessToken);
+
+            };
+            postRequest(wallabagUrl + 'oauth/v2/token', {grant_type: 'password', username: username,
+                        password: password, client_id: clientId, client_secret: clientSecret}, accessCallback);
+        }
+    }
+
+    function validateCommand(event) {
+        if (event.command === "add-wallabag-item") {
+            // Disable the button if there is no URL loaded in the tab.
+            //noinspection JSUnresolvedVariable
+            event.target.disabled = !event.target.browserWindow.activeTab.url;
+        }
+    }
+    //noinspection JSUnresolvedVariable
+    safari.application.addEventListener("command", performCommand, false);
+    //noinspection JSUnresolvedVariable
+    safari.application.addEventListener("validate", validateCommand, false);
+</script>
+</html>
