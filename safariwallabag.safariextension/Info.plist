@@ -41,7 +41,7 @@
 		</array>
 	</dict>
 	<key>Description</key>
-	<string>Add URLs to Wallabag 2.0</string>
+	<string>Add URLs to Wallabag 2.0+</string>
 	<key>DeveloperIdentifier</key>
 	<string>0000000000</string>
 	<key>ExtensionInfoDictionaryVersion</key>
@@ -57,6 +57,6 @@
 		</dict>
 	</dict>
 	<key>Website</key>
-	<string>https://19pouces.net</string>
+	<string>https://github.com/d9pouces/SafariWallabag</string>
 </dict>
 </plist>

@@ -2,7 +2,18 @@
 <head>
 </head>
 
-<script>
+<script type="application/ecmascript">
+
+    function $(x) {
+        return document.getElementById(x.substring(1));
+    }
+
+    var tbItem = safari.extension.toolbarItems[0];
+    var thisPop = safari.extension.popovers.filter(function (p) {
+        return p.identifier == pid;
+    })[0];
+    tbItem.popover = thisPop;
+    tbItem.showPopover();
 
     function postRequest(url, data, callback, accessToken) {
         var xhr = new XMLHttpRequest();
@@ -35,40 +46,49 @@
         xhr.send(JSON.stringify(data));
     }
 
+    function addUrlToWallabag(currentTabUrl, currentTabTitle, tags) {
+        alert(currentTabTitle + currentTabTitle);
+        //noinspection JSUnresolvedVariable
+        var wallabagUrl = safari.extension.settings.wallabagUrl;
+        //noinspection JSUnresolvedVariable
+        var username = safari.extension.secureSettings.wallabagUsername;
+        //noinspection JSUnresolvedVariable
+        var password = safari.extension.secureSettings.wallabagPassword;
+        //noinspection JSUnresolvedVariable
+        var clientId = safari.extension.secureSettings.wallabagclientId;
+        //noinspection JSUnresolvedVariable
+        var clientSecret = safari.extension.secureSettings.wallabagclientSecret;
+
+        var saveCallBack = function (saveData) {
+            //noinspection SillyAssignmentJS,JSUnusedAssignment
+            saveData = saveData;
+            alert(currentTabUrl + " has been saved in you Wallabag!");
+        };
+
+        var accessCallback = function (accessData) {
+            //noinspection JSUnresolvedVariable
+            var accessToken = accessData.token_type + ' ' + accessData.access_token;
+            accessToken = accessToken[0].toUpperCase() + accessToken.substring(1);
+            postRequest(wallabagUrl + 'api/entries.json', {url: currentTabUrl, title: currentTabTitle, tags: tags},
+                    saveCallBack, accessToken);
+
+        };
+        postRequest(wallabagUrl + 'oauth/v2/token', {
+            grant_type: 'password', username: username,
+            password: password, client_id: clientId, client_secret: clientSecret
+        }, accessCallback);
+    }
     function performCommand(event) {
         if (event.command === "add-wallabag-item") {
-            var tags = "";
-            //noinspection JSUnresolvedVariable
-            var wallabagUrl = safari.extension.settings.wallabagUrl;
-            //noinspection JSUnresolvedVariable
-            var username = safari.extension.secureSettings.wallabagUsername;
-            //noinspection JSUnresolvedVariable
-            var password = safari.extension.secureSettings.wallabagPassword ;
-            //noinspection JSUnresolvedVariable
-            var clientId = safari.extension.secureSettings.wallabagclientId;
-            //noinspection JSUnresolvedVariable
-            var clientSecret = safari.extension.secureSettings.wallabagclientSecret;
             //noinspection JSUnresolvedVariable
             var currentTabUrl = safari.application.activeBrowserWindow.activeTab.url;
             //noinspection JSUnresolvedVariable
             var currentTabTitle = safari.application.activeBrowserWindow.activeTab.title;
-
-            var saveCallBack = function(saveData) {
-                //noinspection SillyAssignmentJS,JSUnusedAssignment
-                saveData = saveData;
-                alert(currentTabUrl + " has been saved in you Wallabag!");
-            };
-
-            var accessCallback = function(accessData) {
-                //noinspection JSUnresolvedVariable
-                var accessToken = accessData.token_type + ' ' + accessData.access_token;
-                accessToken = accessToken[0].toUpperCase() + accessToken.substring(1)
-                postRequest(wallabagUrl + 'api/entries.json', {url: currentTabUrl, title: currentTabTitle, tags: tags},
-                        saveCallBack, accessToken);
-
-            };
-            postRequest(wallabagUrl + 'oauth/v2/token', {grant_type: 'password', username: username,
-                        password: password, client_id: clientId, client_secret: clientSecret}, accessCallback);
+            var tags = prompt('"' + currentTabTitle + '"' + " will be added to your Wallabag. \n" +
+                    "You can also add some tags (separated by commas).");
+            if (tags != null) {
+                addUrlToWallabag(currentTabUrl, currentTabTitle, tags);
+            }
         }
     }
 
