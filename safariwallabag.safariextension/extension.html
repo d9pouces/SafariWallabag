@@ -47,7 +47,6 @@
     }
 
     function addUrlToWallabag(currentTabUrl, currentTabTitle, tags) {
-        alert(currentTabTitle + currentTabTitle);
         //noinspection JSUnresolvedVariable
         var wallabagUrl = safari.extension.settings.wallabagUrl;
         //noinspection JSUnresolvedVariable
@@ -62,7 +61,7 @@
         var saveCallBack = function (saveData) {
             //noinspection SillyAssignmentJS,JSUnusedAssignment
             saveData = saveData;
-            alert(currentTabUrl + " has been saved in you Wallabag!");
+            alert(currentTabTitle + "(" + currentTabUrl + ") has been saved in you Wallabag!");
         };
 
         var accessCallback = function (accessData) {
@@ -73,10 +72,9 @@
                     saveCallBack, accessToken);
 
         };
-        postRequest(wallabagUrl + 'oauth/v2/token', {
-            grant_type: 'password', username: username,
-            password: password, client_id: clientId, client_secret: clientSecret
-        }, accessCallback);
+        var authData = {grant_type: 'password', username: username,
+            password: password, client_id: clientId, client_secret: clientSecret};
+        postRequest(wallabagUrl + 'oauth/v2/token', authData, accessCallback);
     }
     function performCommand(event) {
         if (event.command === "add-wallabag-item") {
