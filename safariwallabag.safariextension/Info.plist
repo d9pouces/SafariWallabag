@@ -5,7 +5,7 @@
 	<key>Author</key>
 	<string>Matthieu Gallet</string>
 	<key>Builder Version</key>
-	<string>11601.7.7</string>
+	<string>12602.4.8</string>
 	<key>CFBundleDisplayName</key>
 	<string>safariwallabag</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.1.0</string>
+	<string>0.2.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>Chrome</key>
