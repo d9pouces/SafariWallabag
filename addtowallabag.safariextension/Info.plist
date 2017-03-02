@@ -7,7 +7,7 @@
 	<key>Builder Version</key>
 	<string>12602.4.8</string>
 	<key>CFBundleDisplayName</key>
-	<string>safariwallabag</string>
+	<string>Add To Wallabag</string>
 	<key>CFBundleIdentifier</key>
 	<string>net.d9pouces.projects.safariwallabag</string>
 	<key>CFBundleInfoDictionaryVersion</key>
